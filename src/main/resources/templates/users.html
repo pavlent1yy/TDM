@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/user-card.css">
+    <link rel="stylesheet" href="/css/task-card.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/header-footer.css">
+</head>
+<body>
+<div class="wrapper">
+    <div class="main-header" th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <header class="header">
+            <h1>Users</h1>
+            <button class="add-user-btn" onclick="openModal()">+</button>
+        </header>
+
+        <div class="user-list">
+            <div class="user-card" th:each="user : ${users}">
+                <div class="avatar">
+                    <img th:src="@{/images/avatar-placeholder.png}" alt="Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="name" th:text="${user.name}">Name</div>
+                    <div class="email" th:text="${user.email}">email@example.com</div>
+                    <div class="tasks" th:text="'Tasks: ' + ${user.tasks.size()}">Tasks: 14</div>
+                </div>
+                <div class="action">
+                    <a th:href="@{'/ui/users/' + ${user.id}}" class="arrow-btn">→</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add user</h2>
+            <form th:action="@{/ui/users/add}" th:object="${user}" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("modal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Основное
+/target/
+/build/
+/out/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Логи
+*.log
+
+# Конфигурационные файлы IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Секретные конфиги
+application.properties
+application.yml
+application-dev.properties
+application-dev.yml
+
+# Файлы ОС
+.DS_Store
+Thumbs.db
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Сборка
+.mvn/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Бэкапы
+*~
+*.swp
+*.bak
+
+# Тесты
+/test-output/
+/surefire-reports/
+
+# Генерация Hibernate
+hibernate.cfg.xml
+
+# node/npm (если используется фронтенд)
+node_modules/
+dist/
+npm-debug.log
+
+# Docker
+*.env
+docker-compose.override.yml

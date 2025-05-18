@@ -1,0 +1,46 @@
+.add-user-btn,
+.add-task-btn,
+.back-btn {
+    font-size: 1.6rem;
+    padding: 6px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-user-btn:hover,
+.add-task-btn:hover,
+.back-btn:hover {
+    background-color: #0056b3;
+}
+
+.arrow-btn {
+    font-size: 1.5rem;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: #28a745;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.arrow-btn:hover {
+    background-color: #1e7e34;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+.delete-btn:hover {
+    text-decoration: underline;
+}

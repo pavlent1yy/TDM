@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'User: ' + ${user.name}"></title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/user-card.css">
+    <link rel="stylesheet" href="/css/task-card.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/header-footer.css">
+
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="user-card" th:object="${user}">
+            <div class="avatar">
+                <img th:src="@{/images/avatar-placeholder.png}" alt="Avatar">
+            </div>
+            <form th:action="@{/ui/users/delete}" method="post" style="display: inline">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" class="delete-btn">Delete user</button>
+            </form>
+
+            <div class="user-info">
+                <div class="name" th:text="${user.name}"></div>
+                <div class="email" th:text="${user.email}"></div>
+                <div class="tasks" th:text="'Created ' + ${user.registeredAt.getDayOfMonth() + '.'}
+                                                    + ${user.registeredAt.getMonth().getValue()} + '.'
+                                                    + ${user.registeredAt.getYear()} + ' '
+                                                     + ${user.registeredAt.getHour()} + 'h '
+                                                     + ${user.registeredAt.getMinute()} + 'm '
+                                                     + ${user.registeredAt.getSecond()} + 's '"></div>
+                <div class="tasks" th:text="'Tasks: ' + ${user.tasks.size()}"></div>
+            </div>
+        </div>
+        <br><br>
+        <div class="action">
+            <a style="margin-left: 25px" th:href="@{'/ui/users'}" class="arrow-btn">←</a>
+        </div>
+
+
+        <div class="container">
+            <div class="header">
+                <h1>[[${user.name}]]’s Tasks</h1>
+                <button class="add-task-btn" onclick="openTaskPopup()">+</button>
+            </div>
+
+            <!-- 🟢 Активные задачи -->
+            <h2 style="margin-bottom: 10px;">Active Tasks</h2>
+            <div class="task-list">
+                <div class="task-card"
+                     th:each="task : ${tasks}"
+                     th:if="${!task.isCompleted}">
+                    <div class="task-content">
+                        <div class="task-title">[[${task.title}]]</div>
+                        <div class="task-desc">[[${task.description}]]</div>
+                    </div>
+                    <div class="task-meta">
+                        <div class="task-date"
+                             th:text="${task.getCreatedAt().getDayOfMonth()} + '.' + ${task.getCreatedAt().getMonth().getValue()} + '.' + ${task.getCreatedAt().getYear()}">
+                        </div>
+                        <div class="task-actions">
+                            <form>
+                                <button title="Edit">✎</button>
+                            </form>
+                            <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}">
+                                <button title="Complete">✔</button>
+                            </form>
+                            <form th:action="@{/ui/users/{id}/tasks/delete/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}">
+                                <button title="Delete">🗑</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ Завершённые задачи -->
+            <h2 style="margin-top: 40px; margin-bottom: 10px;">Completed Tasks</h2>
+            <div class="task-list">
+                <div class="task-card completed-task"
+                     th:each="task : ${tasks}"
+                     th:if="${task.isCompleted}">
+                    <div class="task-content">
+                        <div class="task-title">[[${task.title}]]</div>
+                        <div class="task-desc">[[${task.description}]]</div>
+                    </div>
+                    <div class="task-meta">
+                        <div class="task-date"
+                             th:text="${task.getCreatedAt().getDayOfMonth()} + '.' + ${task.getCreatedAt().getMonth().getValue()} + '.' + ${task.getCreatedAt().getYear()}">
+                        </div>
+                        <div class="task-actions">
+                            <form>
+                                <button title="Edit">✎</button>
+                            </form>
+                            <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}">
+                                <button title="Complete">✔</button>
+                            </form>
+                            <form th:action="@{/ui/users/{id}/tasks/delete/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}">
+                                <button title="Delete">🗑</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Popup -->
+        <div class="popup-overlay" id="popup">
+            <div class="popup">
+                <div class="popup-header">
+                    <span>New Task</span>
+                    <span class="date" id="currentDate"></span>
+                </div>
+                <form th:action="@{/ui/users/{id}/tasks/add(id=${user.id})}" th:object="${task}" method="post" class="popup-form">
+                    <input type="text" th:field="*{title}" placeholder="Task title" required>
+                    <textarea th:field="*{description}" placeholder="Task description..." rows="4" required></textarea>
+                    <div class="popup-buttons">
+                        <button type="submit">Save</button>
+                        <button type="button" onclick="closeTaskPopup()">Cancel</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <script>
+            function openTaskPopup() {
+                document.getElementById("popup").style.display = "flex";
+                const now = new Date();
+                document.getElementById("currentDate").innerText = now.toLocaleDateString("ru-RU");
+            }
+
+            function closeTaskPopup() {
+                document.getElementById("popup").style.display = "none";
+            }
+        </script>
+
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</body>
+</html>
