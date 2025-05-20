@@ -1,18 +1,17 @@
 package ru.TDM.todomaganer.controllers;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.property.access.internal.PropertyAccessStrategyResolverInitiator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.TDM.todomaganer.Task;
-import ru.TDM.todomaganer.User;
+import org.springframework.web.multipart.MultipartFile;
+import ru.TDM.todomaganer.entities.Task;
+import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.io.IOException;
+
 
 @Controller
 @AllArgsConstructor
@@ -39,10 +38,27 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute User user) {
-        userService.addUser(user);
+    public String addUser(@RequestParam("name") String name,
+                          @RequestParam("email") String email,
+                          @RequestParam("avatar") MultipartFile avatarFile) throws IOException {
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+
+        if (!avatarFile.isEmpty())
+            user.setAvatar(avatarFile.getBytes());
+
+        try {
+            userService.addUser(user);
+        } catch (Exception e) {
+            return "redirect:/ui/users/errorPage";
+        }
+
         return "redirect:/ui/users";
     }
+
+
 
     @PostMapping("/delete")
     public String deleteUser(@RequestParam Long id) {

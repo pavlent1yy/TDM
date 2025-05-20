@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.TDM.todomaganer.Task;
-import ru.TDM.todomaganer.User;
+import ru.TDM.todomaganer.entities.Task;
+import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 

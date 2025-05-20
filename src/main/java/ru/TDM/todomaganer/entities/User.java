@@ -1,8 +1,11 @@
-package ru.TDM.todomaganer;
+package ru.TDM.todomaganer.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +37,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
+
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @Column(name = "avatar")
+    private byte[] avatar;
+
+
 
 }

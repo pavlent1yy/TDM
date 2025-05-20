@@ -1,4 +1,4 @@
-package ru.TDM.todomaganer;
+package ru.TDM.todomaganer.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

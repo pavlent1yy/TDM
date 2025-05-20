@@ -1,9 +1,12 @@
 package ru.TDM.todomaganer.services;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.TDM.todomaganer.Task;
-import ru.TDM.todomaganer.User;
+import ru.TDM.todomaganer.LogMessages;
+import ru.TDM.todomaganer.entities.Task;
+import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.repos.TaskRepository;
 import ru.TDM.todomaganer.repos.UserRepository;
 
@@ -14,6 +17,8 @@ import java.time.LocalDateTime;
 public class TaskService {
     public final UserRepository userRepository;
     private final TaskRepository taskRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
+
 
     public void addTaskToUser(Task task, User user) {
         User existingUser = userRepository.findById(user.getId()).orElseThrow();
@@ -21,16 +26,19 @@ public class TaskService {
         task.setId(null);
         task.setCreatedAt(LocalDateTime.now());
         taskRepository.save(task);
+        LOGGER.info(LogMessages.INFO.TASK_CREATED, user.getId(), task.getId());
     }
 
     public void deleteTaskById(Long task_id) {
         taskRepository.deleteById(task_id);
+        LOGGER.info(LogMessages.INFO.TASK_DELETED, task_id);
     }
 
     public void changeIsCompleted(Long task_id){
         Task task = taskRepository.findById(task_id).orElseThrow();
         task.setCompleted(!task.isCompleted());
         taskRepository.save(task);
+        LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, task_id, task.isCompleted());
     }
 
 

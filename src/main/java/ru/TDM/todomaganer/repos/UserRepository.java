@@ -3,7 +3,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.TDM.todomaganer.User;
+import ru.TDM.todomaganer.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
