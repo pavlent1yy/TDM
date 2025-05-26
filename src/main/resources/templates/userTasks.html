@@ -16,7 +16,7 @@
 
         <div class="user-card" th:object="${user}">
             <div class="avatar">
-                <img th:src="@{/images/avatar-placeholder.png}" alt="Avatar">
+                <img th:src="@{/ui/users/{id}/avatar(id=${user.id})}" alt="Avatar" width="64" height="64">
             </div>
             <button type="submit" class="delete-btn"
                     onclick="openDeleteConfirmationById('userDeleteConfirmation')">Delete user</button>
@@ -24,12 +24,9 @@
             <div class="user-info">
                 <div class="name" th:text="${user.name}"></div>
                 <div class="email" th:text="${user.email}"></div>
-                <div class="tasks" th:text="'Created ' + ${user.registeredAt.getDayOfMonth() + '.'}
-                                                    + ${user.registeredAt.getMonth().getValue()} + '.'
-                                                    + ${user.registeredAt.getYear()} + ' '
-                                                     + ${user.registeredAt.getHour()} + 'h '
-                                                     + ${user.registeredAt.getMinute()} + 'm '
-                                                     + ${user.registeredAt.getSecond()} + 's '"></div>
+                <div class="tasks" th:text="|Created ${user.registeredAt.getDayOfMonth()}.${user.registeredAt.getMonth().getValue()}.${user.registeredAt.getYear()}
+                                            ${user.registeredAt.getHour()}:${user.registeredAt.getMinute()}:${user.registeredAt.getSecond()} |" style="white-space: pre-line;">
+                </div>
                 <div class="tasks" th:text="'Tasks: ' + ${user.tasks.size()}"></div>
             </div>
         </div>
@@ -91,14 +88,12 @@
                              th:text="${task.getCreatedAt().getDayOfMonth()} + '.' + ${task.getCreatedAt().getMonth().getValue()} + '.' + ${task.getCreatedAt().getYear()}">
                         </div>
                         <div class="task-actions">
-                            <form>
-                                <button title="Edit">✎</button>
-                            </form>
+                            <button th:onclick="openTaskEditPopup" title="Edit">✎</button>
                             <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
                                 <input type="hidden" name="id" th:value="${task.id}">
                                 <button title="Complete">✔</button>
                             </form>
-                            <button th:onclick="|openTaskDeletePopup(${user.id}, ${task.id})|">🗑</button>
+                            <button th:onclick="|openTaskDeletePopup(${user.id}, ${task.id})|" title="Delete">🗑</button>
                         </div>
                     </div>
                 </div>
@@ -180,6 +175,7 @@
                 document.getElementById("deleteTaskId").value = taskId;
                 document.getElementById("taskDeleteConfirmation").style.display = "flex";
             }
+
         </script>
 
         <div th:replace="fragments/footer :: footer"></div>

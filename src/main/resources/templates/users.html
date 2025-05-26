@@ -22,7 +22,7 @@
         <div class="user-list">
             <div class="user-card" th:each="user : ${users}">
                 <div class="avatar">
-                    <img th:src="@{/images/avatar-placeholder.png}" alt="Avatar">
+                    <img th:src="@{/ui/users/{id}/avatar(id=${user.id})}" alt="Avatar" width="64" height="64">
                 </div>
                 <div class="user-info">
                     <div class="name" th:text="${user.name}">Name</div>
@@ -72,6 +72,7 @@
             }
         }
     </script>
+
     <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>

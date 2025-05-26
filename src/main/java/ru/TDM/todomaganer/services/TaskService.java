@@ -29,16 +29,26 @@ public class TaskService {
         LOGGER.info(LogMessages.INFO.TASK_CREATED, user.getId(), task.getId());
     }
 
-    public void deleteTaskById(Long task_id) {
-        taskRepository.deleteById(task_id);
-        LOGGER.info(LogMessages.INFO.TASK_DELETED, task_id);
+    public void deleteTaskById(Long taskId) {
+        taskRepository.deleteById(taskId);
+        LOGGER.info(LogMessages.INFO.TASK_DELETED, taskId);
     }
 
-    public void changeIsCompleted(Long task_id){
-        Task task = taskRepository.findById(task_id).orElseThrow();
+    public void changeIsCompleted(Long taskId){
+        Task task = taskRepository.findById(taskId).orElseThrow();
         task.setCompleted(!task.isCompleted());
         taskRepository.save(task);
-        LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, task_id, task.isCompleted());
+        LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, taskId, task.isCompleted());
+    }
+    // TODO
+    public void editTask(Long id,String title, String description, Boolean isCompleted) {
+        Task task = new Task(id, title, description, isCompleted);
+        taskRepository.save(task);
+        // log
+    }
+
+    public Task getTaskById(Long taskId) {
+        return taskRepository.findById(taskId).orElseThrow();
     }
 
 
