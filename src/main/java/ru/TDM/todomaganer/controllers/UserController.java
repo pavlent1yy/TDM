@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.TDM.todomaganer.entities.Task;
 import ru.TDM.todomaganer.entities.User;
+import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class UserController {
 
     private final UserService userService;
+    private final TaskService taskService;
 
     @GetMapping
     public String usersPage(Model model){

@@ -40,8 +40,8 @@ public class TaskService {
         taskRepository.save(task);
         LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, taskId, task.isCompleted());
     }
-    // TODO
-    public void editTask(Long id,String title, String description, Boolean isCompleted) {
+
+    public void editTask(Long id, String title, String description, Boolean isCompleted) {
         Task task = new Task(id, title, description, isCompleted);
         taskRepository.save(task);
         // log

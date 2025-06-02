@@ -14,6 +14,7 @@
     <div class="wrapper">
         <div th:replace="fragments/header :: header"></div>
 
+        <!-- User Profile --->
         <div class="user-card" th:object="${user}">
             <div class="avatar">
                 <img th:src="@{/ui/users/{id}/avatar(id=${user.id})}" alt="Avatar" width="64" height="64">
@@ -30,153 +31,44 @@
                 <div class="tasks" th:text="'Tasks: ' + ${user.tasks.size()}"></div>
             </div>
         </div>
+
+        <!-- Back to user list Button --->
         <br><br>
         <div class="action">
             <a style="margin-left: 25px" th:href="@{'/ui/users'}" class="arrow-btn">←</a>
         </div>
 
-
+        <!-- Tasks --->
         <div class="container">
             <div class="header">
                 <h1>[[${user.name}]]’s Tasks</h1>
-                <button class="add-task-btn" onclick="openTaskPopup()">+</button>
+                <button class="add-task-btn" onclick="openNewTaskPopup()">+</button>
             </div>
 
-            <!-- Активные задачи -->
-            <h2 style="margin-bottom: 10px;">Active Tasks</h2>
+            <h2 style="margin-top: 40px; margin-bottom: 10px;">Active Tasks</h2>
             <div class="task-list">
-                <div class="task-card"
-                     th:each="task : ${tasks}"
-                     th:if="${!task.isCompleted}">
-                    <div class="task-content">
-                        <div class="task-title">[[${task.title}]]</div>
-                        <div class="task-desc">[[${task.description}]]</div>
-                    </div>
-                    <div class="task-meta">
-                        <div class="task-date"
-                             th:text="${task.getCreatedAt().getDayOfMonth()} + '.' +
-                                ${task.getCreatedAt().getMonth().getValue()} + '.' + ${task.getCreatedAt().getYear()}">
-                        </div>
-                        <div class="task-actions">
-                            <form>
-                                <button title="Edit">✎</button>
-                            </form>
-                            <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
-                                <input type="hidden" name="id" th:value="${task.id}">
-                                <button title="Complete">✔</button>
-                            </form>
-
-                            <button th:onclick="|openTaskDeletePopup(${user.id}, ${task.id})|">🗑</button>
-
-                        </div>
-                    </div>
+                <div th:each="task : ${tasks}" th:if="${!task.isCompleted}">
+                    <div th:replace="fragments/task-card :: task(task=${task}, user=${user}, isCompleted=${false})"></div>
                 </div>
             </div>
 
-            <!-- Завершённые задачи -->
             <h2 style="margin-top: 40px; margin-bottom: 10px;">Completed Tasks</h2>
             <div class="task-list">
-                <div class="task-card completed-task"
-                     th:each="task : ${tasks}"
-                     th:if="${task.isCompleted}">
-                    <div class="task-content">
-                        <div class="task-title">[[${task.title}]]</div>
-                        <div class="task-desc">[[${task.description}]]</div>
-                    </div>
-                    <div class="task-meta">
-                        <div class="task-date"
-                             th:text="${task.getCreatedAt().getDayOfMonth()} + '.' + ${task.getCreatedAt().getMonth().getValue()} + '.' + ${task.getCreatedAt().getYear()}">
-                        </div>
-                        <div class="task-actions">
-                            <button th:onclick="openTaskEditPopup" title="Edit">✎</button>
-                            <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}" method="post">
-                                <input type="hidden" name="id" th:value="${task.id}">
-                                <button title="Complete">✔</button>
-                            </form>
-                            <button th:onclick="|openTaskDeletePopup(${user.id}, ${task.id})|" title="Delete">🗑</button>
-                        </div>
-                    </div>
+                <div th:each="task : ${tasks}" th:if="${task.isCompleted}">
+                    <div th:replace="fragments/task-card :: task(task=${task}, user=${user}, isCompleted=${true})"></div>
                 </div>
             </div>
         </div>
 
 
-        <!-- Popups -->
-        <div class="popup-overlay" id="popup">
-            <div class="popup">
-                <div class="popup-header">
-                    <span>New Task</span>
-                    <span class="date" id="currentDate"></span>
-                </div>
-                <form th:action="@{/ui/users/{id}/tasks/add(id=${user.id})}" th:object="${task}" method="post" class="popup-form">
-                    <input type="text" th:field="*{title}" placeholder="Task title" required>
-                    <textarea th:field="*{description}" placeholder="Task description..." rows="4"></textarea>
-                    <div class="popup-buttons">
-                        <button type="submit">Save</button>
-                        <button type="button" onclick="closePopupById('popup')">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <!--Popups--->
+        <div th:insert="fragments/popups :: new-task(${user.id}, ${task})"></div>
+        <div th:insert="fragments/popups :: delete-user(${user.id})"></div>
+        <div th:insert="fragments/popups :: delete-task"></div>
+<!--        <div th:insert="fragments/popups :: edit-task(${task})"></div>-->
 
-
-        <div class="popup-overlay" id="userDeleteConfirmation">
-            <div class="popup">
-                <div class="popup-header">
-                    <span>Delete Confirmation</span>
-                </div>
-                <form th:action="@{/ui/users/delete}" method="post" class="popup-form">
-                    <label>Are you sure you want to delete the user?</label>
-                    <input type="hidden" name="id" th:value="${user.id}">
-                    <div class="popup-buttons">
-                        <button style="background: #980000" type="submit">Yes, I confirm</button>
-                        <button type="button" onclick="closePopupById('userDeleteConfirmation')">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-        <div class="popup-overlay" id="taskDeleteConfirmation">
-            <div class="popup">
-                <div class="popup-header">
-                    <span>Delete Confirmation</span>
-                </div>
-                <form id="taskDeleteForm" method="post">
-                    <label>Are you sure you want to delete the task?</label>
-                    <input type="hidden" name="taskId" id="deleteTaskId">
-                    <div class="popup-buttons">
-                        <button style="background: #980000" type="submit">Yes, I confirm</button>
-                        <button type="button" onclick="closePopupById('taskDeleteConfirmation')">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-        <script>
-            function openTaskPopup() {
-                document.getElementById("popup").style.display = "flex";
-                const now = new Date();
-                document.getElementById("currentDate").innerText = now.toLocaleDateString("ru-RU");
-            }
-
-            function openDeleteConfirmationById(id){
-                document.getElementById(id).style.display = "flex";
-            }
-
-            function closePopupById(popup) {
-                document.getElementById(popup).style.display = "none";
-            }
-
-            function openTaskDeletePopup(userId, taskId) {
-                const form = document.getElementById("taskDeleteForm");
-                form.action = `/ui/users/${userId}/tasks/delete/${taskId}`;
-                document.getElementById("deleteTaskId").value = taskId;
-                document.getElementById("taskDeleteConfirmation").style.display = "flex";
-            }
-
-        </script>
+        <!--JS connect--->
+        <script src="/js/popup-handler.js"></script>
 
         <div th:replace="fragments/footer :: footer"></div>
     </div>

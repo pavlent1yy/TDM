@@ -1,0 +1,29 @@
+<!-- fragments/task-card.html -->
+<div th:fragment="task(task, user, isCompleted)">
+    <div th:class="'task-card' + (${isCompleted} ? ' completed-task' : '')">
+        <div class="task-content">
+            <div class="task-title" th:text="${task.title}">Task Title</div>
+            <div class="task-desc" th:text="${task.description}">Task description</div>
+        </div>
+        <div class="task-meta">
+            <div class="task-date"
+                 th:text="${task.getCreatedAt().getDayOfMonth()} + '.' + ${task.getCreatedAt().getMonthValue()} + '.' + ${task.getCreatedAt().getYear()}">
+            </div>
+            <div class="task-actions">
+                <button type="button"
+                        th:if="${!isCompleted}"
+                        th:onclick="|openEditTask(${task.id})|"
+                        title="Edit">✎</button>
+
+                <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}"
+                      method="post">
+                    <input type="hidden" name="id" th:value="${task.id}">
+                    <button title="Complete">✔</button>
+                </form>
+
+                <button th:onclick="|openTaskDeletePopup(${user.id}, ${task.id})|"
+                        title="Delete">🗑</button>
+            </div>
+        </div>
+    </div>
+</div>

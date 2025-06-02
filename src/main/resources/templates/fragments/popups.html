@@ -1,0 +1,82 @@
+<!-- fragments/popups.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<body>
+
+<!-- New Task -->
+<div th:fragment="new-task(userId, task)">
+    <div class="popup-overlay" id="newTask">
+        <div class="popup">
+            <div class="popup-header">
+                <span>New Task</span>
+                <span class="date" id="currentDate"></span>
+            </div>
+            <form th:action="@{/ui/users/{id}/tasks/add(id=${userId})}"
+                  th:object="${task}" method="post" class="popup-form">
+                <input placeholder="Task title" required th:field="*{title}" type="text">
+                <textarea th:field="*{description}" placeholder="Task description..." rows="4"></textarea>
+                <div class="popup-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" onclick="closePopupById('newTask')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete user -->
+<div th:fragment="delete-user(userId)">
+    <div class="popup-overlay" id="userDeleteConfirmation">
+        <div class="popup">
+            <div class="popup-header">
+                <span>Delete Confirmation</span>
+            </div>
+            <form th:action="@{/ui/users/delete}" method="post" class="popup-form">
+                <label>Are you sure you want to delete the user?</label>
+                <input type="hidden" name="id" th:value="${userId}">
+                <div class="popup-buttons">
+                    <button style="background: #980000" type="submit">Yes, I confirm</button>
+                    <button type="button" onclick="closePopupById('userDeleteConfirmation')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete task -->
+<div th:fragment="delete-task">
+    <div class="popup-overlay" id="taskDeleteConfirmation">
+        <div class="popup">
+            <div class="popup-header">
+                <span>Delete Confirmation</span>
+            </div>
+            <form id="taskDeleteForm" method="post">
+                <label>Are you sure you want to delete the task?</label>
+                <input type="hidden" name="taskId" id="deleteTaskId">
+                <div class="popup-buttons">
+                    <button style="background: #980000" type="submit">Yes, I confirm</button>
+                    <button type="button" onclick="closePopupById('taskDeleteConfirmation')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit task -->
+<div th:fragment="edit-task(task)">
+    <div class="popup-overlay" id="taskEdit" style="display:none;">
+        <div class="popup">
+            <form class="popup-form" method="post">
+                <input type="hidden" name="taskId" id="editTaskId">
+                <input type="text" name="title" th:value="${task.title}" />
+                <textarea name="description" rows="4" th:text="${task.description}"></textarea>
+                <input type="checkbox" name="completed" th:checked="${task.completed}" />
+                <button type="submit">Save</button>
+            </form>
+            <button type="button" onclick="closePopup('taskEdit')">Close</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

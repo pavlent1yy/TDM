@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
@@ -13,6 +13,7 @@
 <body>
 <div class="wrapper">
     <div class="main-header" th:replace="fragments/header :: header"></div>
+
     <div class="container">
         <header class="header">
             <h1>Users</h1>
@@ -56,22 +57,7 @@
         </div>
     </div>
 
-    <script>
-        function openModal() {
-            document.getElementById("modal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("modal").style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById("modal");
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
+    <script src="/js/users-list-handler.js"></script>
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>

@@ -49,16 +49,15 @@ public class TaskController {
         return "redirect:/ui/users/" + userId;
     }
 
-    // TODO
+
     @PostMapping("/{userId}/tasks/edit/{taskId}")
     public String editTask(@PathVariable Long userId,
                            @PathVariable Long taskId,
-                           @ModelAttribute Task task) {
-        task.setId(taskId);
-        taskService.editTask(task.getId(), task.getTitle(), task.getDescription(), task.isCompleted());
+                           @RequestParam String title,
+                           @RequestParam String description,
+                           @RequestParam(required = false) Boolean completed) {
+        taskService.editTask(taskId, title, description, completed != null && completed);
         return "redirect:/ui/users/" + userId;
     }
-
-
 
 }
