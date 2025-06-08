@@ -20,11 +20,6 @@
                         onclick="openEditTask(this)"
                         title="Edit">✎</button>
 
-
-
-
-
-
                 <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}"
                       method="post">
                     <input type="hidden" name="id" th:value="${task.id}">

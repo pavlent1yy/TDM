@@ -39,7 +39,7 @@ function openEditTask(button) {
     popup.querySelector('input[name="createdAt"]').value = createdAt;
 
     popup.querySelector('input[name="title"]').value = taskTitle;
-    popup.querySelector('textarea[name="description"]').value = taskDescription;
+    popup.querySelector('textarea[name="description"]').value = taskDescription || "";
     popup.querySelector('input[name="completed"]').checked = isCompleted;
 
     popup.querySelector('form').action = `/ui/users/${userId}/tasks/edit/${taskId}`;

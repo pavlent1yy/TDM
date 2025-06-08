@@ -24,6 +24,7 @@
 9. Поправить и стилизовать task-edit
 10. Popup с ошибками
 11. Вкладка "About"
+12. ~~undefined при пустом description в edit-task~~
 
 ## Логи
 1. ~~Лог для создания user~~
