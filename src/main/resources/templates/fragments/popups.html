@@ -65,7 +65,7 @@
 <!-- Edit task -->
 <div th:fragment="edit-task(task)">
     <div class="popup-overlay" id="taskEdit" style="display:none;">
-        <div class="popup">
+        <div class="popup edit-task-popup">
             <div class="popup-header">
                 <span>Edit Task</span>
             </div>
@@ -74,20 +74,26 @@
                 <input type="hidden" name="userId" id="editUserId">
                 <input type="hidden" name="createdAt" id="editCreatedAt">
 
-                <input type="text" name="title" value="">
-                <textarea name="description" rows="4"></textarea>
+                <label for="editTitle">Title:</label>
+                <input type="text" id="editTitle" name="title" class="input-field" placeholder="Task title">
 
-                <label>Status:</label>
-                <input type="checkbox" name="completed" />
+                <label for="editDescription">Description:</label>
+                <textarea id="editDescription" name="description" class="textarea-field" rows="4" placeholder="Task description..."></textarea>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="editCompleted" name="completed" />
+                    <label for="editCompleted">Completed</label>
+                </div>
 
                 <div class="popup-buttons">
-                    <button type="submit">Save</button>
-                    <button type="button" onclick="closePopup('taskEdit')">Close</button>
+                    <button class="submit-btn" type="submit">Save</button>
+                    <button class="cancel-btn" type="button" onclick="closePopup('taskEdit')">Close</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 
 </body>

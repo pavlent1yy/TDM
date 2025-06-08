@@ -172,3 +172,98 @@
     background-color: #aaa;
 }
 
+
+.edit-task-popup {
+    width: 450px;
+    max-width: 90%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.input-field,
+.textarea-field {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus,
+.textarea-field:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 4px;
+}
+
+.cancel-btn {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 4px;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn:hover {
+    background-color: #b3b3b3;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #28a745; /* ✅ цвет чекбокса в новых браузерах */
+    cursor: pointer;
+}
+
+/* Дополнительно: стили кнопок с зазором */
+.popup-buttons button {
+    margin: 4px;
+}
+
