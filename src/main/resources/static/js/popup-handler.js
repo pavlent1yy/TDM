@@ -24,9 +24,20 @@ function openTaskDeletePopup(userId, taskId) {
 }
 
 
-function openEditTask(taskId, taskTitle, taskDescription, isCompleted, userId) {
+function openEditTask(button) {
+    const taskId = button.dataset.id;
+    const taskTitle = button.dataset.title;
+    const taskDescription = button.dataset.description;
+    const isCompleted = button.dataset.completed === "true";
+    const userId = button.dataset.userid;
+    const createdAt = button.dataset.createdat;
+
     const popup = document.getElementById("taskEdit");
-    document.getElementById("editTaskId").value = taskId;
+
+    popup.querySelector('input[name="taskId"]').value = taskId;
+    popup.querySelector('input[name="userId"]').value = userId;
+    popup.querySelector('input[name="createdAt"]').value = createdAt;
+
     popup.querySelector('input[name="title"]').value = taskTitle;
     popup.querySelector('textarea[name="description"]').value = taskDescription;
     popup.querySelector('input[name="completed"]').checked = isCompleted;
@@ -34,3 +45,6 @@ function openEditTask(taskId, taskTitle, taskDescription, isCompleted, userId) {
     popup.querySelector('form').action = `/ui/users/${userId}/tasks/edit/${taskId}`;
     popup.style.display = "flex";
 }
+
+
+

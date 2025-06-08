@@ -41,11 +41,14 @@ public class TaskService {
         LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, taskId, task.isCompleted());
     }
 
-    public void editTask(Long id, String title, String description, Boolean isCompleted) {
-        Task task = new Task(id, title, description, isCompleted);
+
+    public void editTask(Task task, User user, LocalDateTime createdAt) {
+        task.setUser(user);
+        task.setCreatedAt(createdAt);
         taskRepository.save(task);
-        // log
+        LOGGER.info(LogMessages.INFO.TASK_EDITED, task.getId());
     }
+
 
     public Task getTaskById(Long taskId) {
         return taskRepository.findById(taskId).orElseThrow();

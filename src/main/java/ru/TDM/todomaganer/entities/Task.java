@@ -23,6 +23,7 @@ public class Task {
 
     private boolean isCompleted;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -34,4 +35,5 @@ public class Task {
         this.description = description;
         this.isCompleted = isCompleted;
     }
+
 }

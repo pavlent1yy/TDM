@@ -10,6 +10,7 @@ import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -55,9 +56,19 @@ public class TaskController {
                            @PathVariable Long taskId,
                            @RequestParam String title,
                            @RequestParam String description,
-                           @RequestParam(required = false) Boolean completed) {
-        taskService.editTask(taskId, title, description, completed != null && completed);
+                           @RequestParam(required = false) Boolean completed,
+                           @RequestParam String createdAt) {
+        LocalDateTime createdDateTime = LocalDateTime.parse(createdAt);
+        boolean isCompleted = completed != null && completed;
+        User user = null;
+        if (userService.getUserById(userId).isPresent())
+            user = userService.getUserById(userId).get();
+
+        Task task = new Task(taskId, title, description, isCompleted);
+        taskService.editTask(task, user, createdDateTime);
+
         return "redirect:/ui/users/" + userId;
     }
+
 
 }

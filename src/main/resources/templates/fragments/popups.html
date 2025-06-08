@@ -66,17 +66,29 @@
 <div th:fragment="edit-task(task)">
     <div class="popup-overlay" id="taskEdit" style="display:none;">
         <div class="popup">
+            <div class="popup-header">
+                <span>Edit Task</span>
+            </div>
             <form class="popup-form" method="post">
                 <input type="hidden" name="taskId" id="editTaskId">
-                <input type="text" name="title" th:value="${task.title}" />
-                <textarea name="description" rows="4" th:text="${task.description}"></textarea>
-                <input type="checkbox" name="completed" th:checked="${task.completed}" />
-                <button type="submit">Save</button>
+                <input type="hidden" name="userId" id="editUserId">
+                <input type="hidden" name="createdAt" id="editCreatedAt">
+
+                <input type="text" name="title" value="">
+                <textarea name="description" rows="4"></textarea>
+
+                <label>Status:</label>
+                <input type="checkbox" name="completed" />
+
+                <div class="popup-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" onclick="closePopup('taskEdit')">Close</button>
+                </div>
             </form>
-            <button type="button" onclick="closePopup('taskEdit')">Close</button>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

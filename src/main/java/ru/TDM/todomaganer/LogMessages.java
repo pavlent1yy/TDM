@@ -22,6 +22,7 @@ public class LogMessages {
         public static final String TASK_DELETED = EMOJI_DELETE + "Task id={} has been deleted successfully";
 
         public static final String TASK_IS_COMPLETE_CHANGING = EMOJI_UPDATE + "Task id={} has isComplete status={} ";
+        public  static  final String TASK_EDITED = EMOJI_UPDATE + "Task id={} has been edited successfully";
     }
 
     public static class ERROR {

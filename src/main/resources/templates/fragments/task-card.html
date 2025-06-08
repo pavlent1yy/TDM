@@ -11,9 +11,19 @@
             </div>
             <div class="task-actions">
                 <button type="button"
-                        th:if="${!isCompleted}"
-                        th:onclick="|openEditTask(${task.id})|"
+                        th:attr="data-id=${task.id},
+                         data-title=${task.title},
+                         data-description=${task.description},
+                         data-completed=${task.completed},
+                         data-userid=${user.id},
+                         data-createdat=${task.createdAt}"
+                        onclick="openEditTask(this)"
                         title="Edit">✎</button>
+
+
+
+
+
 
                 <form th:action="@{/ui/users/{id}/tasks/isCompleted/{taskID}(id=${user.id}, taskID=${task.id})}"
                       method="post">

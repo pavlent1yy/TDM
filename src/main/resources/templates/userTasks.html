@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <div th:replace="fragments/header :: header"></div>
+        <div th:insert="~{fragments/header :: header}"></div>
 
         <!-- User Profile --->
         <div class="user-card" th:object="${user}">
@@ -65,7 +65,7 @@
         <div th:insert="fragments/popups :: new-task(${user.id}, ${task})"></div>
         <div th:insert="fragments/popups :: delete-user(${user.id})"></div>
         <div th:insert="fragments/popups :: delete-task"></div>
-<!--        <div th:insert="fragments/popups :: edit-task(${task})"></div>-->
+        <div th:insert="fragments/popups :: edit-task(${task})"></div>
 
         <!--JS connect--->
         <script src="/js/popup-handler.js"></script>
