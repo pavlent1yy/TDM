@@ -1,48 +1,59 @@
+/* === Стиль кнопок в стиле macOS === */
+
 .add-user-btn,
 .add-task-btn,
 .back-btn {
-    font-size: 1.6rem;
-    padding: 6px 14px;
-    background-color: #007bff;
+    font-size: 1.4rem;
+    padding: 8px 18px;
+    background-color: #007aff; /* фирменный синий macOS */
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 14px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(0, 122, 255, 0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
 }
 
 .add-user-btn:hover,
 .add-task-btn:hover,
 .back-btn:hover {
-    background-color: #0056b3;
+    background-color: #005bb5;
+    box-shadow: 0 6px 15px rgba(0, 91, 181, 0.6);
 }
 
 .arrow-btn {
     font-size: 1.5rem;
-    padding: 10px;
+    padding: 10px 16px;
     text-decoration: none;
     color: white;
-    background-color: #28a745;
-    border-radius: 6px;
-    transition: background-color 0.2s;
+    background-color: #34c759; /* зелёный macOS */
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(52, 199, 89, 0.45);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
 }
 
 .arrow-btn:hover {
-    background-color: #1e7e34;
+    background-color: #28a745;
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.65);
 }
 
 .delete-btn {
     background: none;
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 0 6px;
     cursor: pointer;
-    color: red;
-    font-weight: bold;
-
+    color: #ff3b30; /* красный macOS */
+    user-select: none;
+    transition: color 0.25s ease, text-decoration 0.25s ease;
 }
 
 .delete-btn:hover {
+    color: #bf2a24;
     text-decoration: underline;
 }
-

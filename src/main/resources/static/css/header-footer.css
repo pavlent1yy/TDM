@@ -1,39 +1,50 @@
 .main-header {
-    background-color: #222;
-    color: #fff;
-    padding: 15px 40px;
+    background-color: #f8f8f8; /* светлый фон, как у macOS */
+    color: #1c1c1e;
+    padding: 16px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #d1d1d6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    backdrop-filter: saturate(180%) blur(12px); /* легкий эффект размытия */
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
 }
 
 .main-header .logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+    font-size: 1.5rem; /* 24px примерно */
+    font-weight: 700;
+    color: #1c1c1e;
     text-decoration: none;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    user-select: none;
+    cursor: default;
 }
 
 .main-header .nav-links a {
     margin-left: 30px;
-    font-size: 16px;
-    color: #ffffff;
+    font-size: 1rem; /* 16px */
+    color: #3a3a3c; /* чуть темнее обычного текста */
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.25s ease;
+    padding: 6px 8px;
+    border-radius: 8px;
 }
 
 .main-header .nav-links a:hover {
-    color: #f0db4f;
+    color: #007aff; /* яркий синий акцент macOS */
+    background-color: rgba(0, 122, 255, 0.1);
 }
 
+/* Футер — легкий, с мягкой тенью сверху */
 .main-footer {
-    background-color: #222;
-    color: #ccc;
+    background-color: #f8f8f8;
+    color: #8e8e93;
     text-align: center;
-    padding: 12px 0;
-    font-size: 14px;
+    padding: 14px 0;
+    font-size: 0.875rem; /* 14px */
     margin-top: 50px;
-    box-shadow: inset 0 1px 0 #444;
+    border-top: 1px solid #d1d1d6;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    user-select: none;
 }
