@@ -1,0 +1,26 @@
+.about-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #efefef;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.about-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.about-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.about-container ul li {
+    margin-bottom: 10px;
+}

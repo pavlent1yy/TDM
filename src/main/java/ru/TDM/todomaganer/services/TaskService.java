@@ -47,13 +47,13 @@ public class TaskService {
         LOGGER.info(LogMessages.INFO.TASK_IS_COMPLETE_CHANGING, taskId, task.isCompleted());
     }
 
-
     public void editTask(Task task, User user, LocalDateTime createdAt) {
         task.setUser(user);
         task.setCreatedAt(createdAt);
         taskRepository.save(task);
         LOGGER.info(LogMessages.INFO.TASK_EDITED, task.getId());
     }
+
 
     public List<Task> searchTask(String searchText, Long userId) {
         List<Task> byTitle = findTasksByTitle(searchText, userId);
@@ -67,12 +67,14 @@ public class TaskService {
     }
 
 
-    public List<Task> findTasksByTitle(String title, Long id) {
-        return filterTasks(id, task -> task.getTitle().equals(title));
+    public List<Task> findTasksByTitle(String titlePart, Long id) {
+        return filterTasks(id, task ->
+                task.getTitle().toLowerCase().contains(titlePart.toLowerCase().trim()));
     }
 
-    public List<Task> findTasksByDescription(String description, Long id) {
-        return filterTasks(id, task -> task.getDescription().equals(description));
+    public List<Task> findTasksByDescription(String descriptionPart, Long id) {
+        return filterTasks(id, task ->
+                task.getDescription().toLowerCase().contains(descriptionPart.toLowerCase().trim()));
     }
 
     public List<Task> findTasksByCreationDate(String date, Long id) {
@@ -82,11 +84,9 @@ public class TaskService {
         int dateToInt = Integer.parseInt(date);
         return filterTasks(id, task ->
                 task.getCreatedAt().getDayOfMonth() == dateToInt ||
-                task.getCreatedAt().getMonthValue() == dateToInt ||
-                task.getCreatedAt().getYear() == dateToInt
-        );
+                        task.getCreatedAt().getMonthValue() == dateToInt ||
+                        task.getCreatedAt().getYear() == dateToInt);
     }
-
 
     private List<Task> filterTasks(Long id, Predicate<Task> condition) {
         return userRepository.findById(id)
@@ -104,6 +104,7 @@ public class TaskService {
             return false;
         }
     }
+
 
 
 }

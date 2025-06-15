@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>About TaskManager</title>
+  <link rel="stylesheet" href="/css/style-about.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/user-card.css">
+  <link rel="stylesheet" href="/css/task-card.css">
+  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" href="/css/buttons.css">
+  <link rel="stylesheet" href="/css/header-footer.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="about-container">
+  <h1>About TaskManager</h1>
+
+  <p>TaskManager — приложение для организации задач и пользователей.</p>
+
+  <h2>Основной функционал</h2>
+
+  <ul>
+    <li>Управление задачами пользователей</li>
+    <li>Добавление, редактирование и удалнение задач</li>
+    <li>Отмечание задач как завершенные</li>
+    <li>Поиск задач по названием</li>
+    <li>Управление профилем пользователей</li>
+    <li>Добавление и удалнение пользователей</li>
+  </ul>
+
+  <h2>Технологии</h2>
+
+  <ul>
+    <li>Spring Framework</li>
+    <li>Thymeleaf</li>
+    <li>Postgres</li>
+    <li>HTML, CSS, JavaScript</li>
+  </ul>
+
+  <p>Спасибо, что пользуетесь TaskManager! 😊</p>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

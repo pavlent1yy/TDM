@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ERROR</title>
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/style-error.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/user-card.css">
+    <link rel="stylesheet" href="/css/task-card.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/header-footer.css">
 </head>
 <body>
-    <h1>ERROR</h1>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="error-container">
+    <h1>Упс! Что‑не так</h1>
+    <p>Произошла ошибка. Пожалуйста, попробуйте вернуться назад или перейти на главнюю.</p>
+    <a th:href="@{/ui/users}" class="back-home">Вернуться на главнюю</a>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

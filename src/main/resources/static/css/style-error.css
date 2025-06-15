@@ -1,0 +1,38 @@
+.error-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff0f0;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    color: #d8000c;
+    font-size: 1.1rem;
+    text-align: center;
+    border: 2px solid #d8000c;
+}
+
+.error-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.error-container p {
+    margin-bottom: 20px;
+}
+
+.error-container .back-home {
+    padding: 10px 20px;
+    background: #d8000c;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    display: inline-block;
+}
+
+.error-container .back-home:hover {
+    background: #a70000;
+}

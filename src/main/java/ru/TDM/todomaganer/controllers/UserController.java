@@ -29,6 +29,18 @@ public class UserController {
         return "users";
     }
 
+    @GetMapping("/about")
+    public String aboutPage(Model model){
+        return "about-page";
+    }
+
+    @GetMapping("/error")
+    public String showErrorPage(){
+        return "error-page";
+    }
+
+
+
     @GetMapping("/{id}")
     public String userTasksPage(Model model, @PathVariable Long id){
         if(userService.getUserById(id).isPresent()) {
@@ -61,7 +73,7 @@ public class UserController {
         try {
             userService.addUser(user);
         } catch (Exception e) {
-            return "redirect:/ui/users/errorPage";
+            return "redirect:/ui/users/error";
         }
 
         return "redirect:/ui/users";

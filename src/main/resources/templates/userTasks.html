@@ -18,9 +18,10 @@
         <div class="user-card" th:object="${user}">
             <div class="avatar">
                 <img th:src="@{/ui/users/{id}/avatar(id=${user.id})}" alt="Avatar" width="64" height="64">
+                <button type="submit" class="delete-btn"
+                        onclick="openDeleteConfirmationById('userDeleteConfirmation')">Delete user</button>
             </div>
-            <button type="submit" class="delete-btn"
-                    onclick="openDeleteConfirmationById('userDeleteConfirmation')">Delete user</button>
+
 
             <div class="user-info">
                 <div class="name" th:text="${user.name}"></div>
