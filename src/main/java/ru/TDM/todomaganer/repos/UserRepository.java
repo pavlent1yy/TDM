@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.TDM.todomaganer.entities.User;
 
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByName(@NonNull @NotBlank(message = "Name cannot be blank!") String name);

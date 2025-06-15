@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.TDM.todomaganer.entities.Task;
@@ -12,6 +13,7 @@ import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
 import java.io.IOException;
+import java.util.*;
 
 
 @Controller
@@ -44,6 +46,33 @@ public class UserController {
     public ResponseEntity<byte[]> getAvatar(@PathVariable Long id) {
         return userService.getUserAvatar(id);
     }
+
+    @GetMapping("/{id}/search")
+    public String searchTask(Model model,
+                             @PathVariable Long id,
+                             @RequestParam(required = false) String searchText) {
+
+        User user = userService.getUserByIdOrNull(id);
+        List<Task> tasks = new ArrayList<>();
+        if (user == null)
+            return "redirect:/error";
+
+        if (StringUtils.hasText(searchText)) {
+            List<Task> byTitle = taskService.findTasksByTitle(searchText, id);
+            List<Task> byDescription = taskService.findTasksByDescription(searchText, id);
+            Set<Task> set = new HashSet<>(byTitle);
+            set.addAll(byDescription);
+            tasks.addAll(set);
+        } else
+            tasks = userService.getTasksFromUser(user);
+
+        model.addAttribute("task", new Task());
+        model.addAttribute("user", user);
+        model.addAttribute("tasks", tasks);
+        return "userTasks";
+    }
+
+
 
     @PostMapping("/add")
     public String addUser(@RequestParam("name") String name,

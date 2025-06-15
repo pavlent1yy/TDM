@@ -3,6 +3,7 @@ package ru.TDM.todomaganer.services;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.stereotype.Service;
 import ru.TDM.todomaganer.LogMessages;
 import ru.TDM.todomaganer.entities.Task;
@@ -11,6 +12,9 @@ import ru.TDM.todomaganer.repos.TaskRepository;
 import ru.TDM.todomaganer.repos.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,6 +56,24 @@ public class TaskService {
 
     public Task getTaskById(Long taskId) {
         return taskRepository.findById(taskId).orElseThrow();
+    }
+
+    public List<Task> findTasksByTitle(String title, Long id) {
+        List<Task> tasks = new ArrayList<>();
+        if (userRepository.findById(id).isPresent()) {
+            tasks = userRepository.findById(id).get().getTasks().stream()
+                    .filter(task -> task.getTitle().equals(title)).collect(Collectors.toList());
+        }
+        return tasks;
+    }
+
+    public List<Task> findTasksByDescription(String description, Long id){
+        List<Task> tasks = new ArrayList<>();
+        if (userRepository.findById(id).isPresent()) {
+            tasks = userRepository.findById(id).get().getTasks().stream()
+                    .filter(task -> task.getDescription().equals(description)).collect(Collectors.toList());
+        }
+        return tasks;
     }
 
 

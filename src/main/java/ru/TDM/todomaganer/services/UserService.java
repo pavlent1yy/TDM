@@ -37,6 +37,12 @@ public class UserService {
         }
     }
 
+    public User getUserByIdOrNull(Long id){
+        if (userRepository.findById(id).isPresent())
+            return userRepository.findById(id).get();
+        return null;
+    }
+
     public Optional<User> getUserById(Long id){
         return userRepository.findById(id);
     }
