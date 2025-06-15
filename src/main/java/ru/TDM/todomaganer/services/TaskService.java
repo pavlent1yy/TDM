@@ -3,7 +3,6 @@ package ru.TDM.todomaganer.services;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.stereotype.Service;
 import ru.TDM.todomaganer.LogMessages;
 import ru.TDM.todomaganer.entities.Task;
@@ -67,7 +66,7 @@ public class TaskService {
         return tasks;
     }
 
-    public List<Task> findTasksByDescription(String description, Long id){
+    public List<Task> findTasksByDescription(String description, Long id) {
         List<Task> tasks = new ArrayList<>();
         if (userRepository.findById(id).isPresent()) {
             tasks = userRepository.findById(id).get().getTasks().stream()
@@ -76,5 +75,27 @@ public class TaskService {
         return tasks;
     }
 
+    public List<Task> findTasksByCreationDate(String date, Long id){
+        List<Task> tasks = new ArrayList<>();
+        if (userRepository.findById(id).isPresent() && isInteger(date)) {
+            int dateToInt = Integer.parseInt(date);
+            tasks = userRepository.findById(id).get().getTasks().stream()
+                    .filter(task
+                            -> task.getCreatedAt().getDayOfMonth() == dateToInt
+                            || task.getCreatedAt().getMonthValue() == dateToInt
+                            || task.getCreatedAt().getYear() == dateToInt
+                    ).collect(Collectors.toList());
+        }
+        return tasks;
+    }
+
+    private static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 }

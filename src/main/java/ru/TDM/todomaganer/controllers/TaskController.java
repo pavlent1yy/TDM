@@ -3,6 +3,8 @@ package ru.TDM.todomaganer.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.TDM.todomaganer.entities.Task;
@@ -11,7 +13,7 @@ import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @AllArgsConstructor
@@ -68,6 +70,33 @@ public class TaskController {
         taskService.editTask(task, user, createdDateTime);
 
         return "redirect:/ui/users/" + userId;
+    }
+
+    @GetMapping("/{userId}/search")
+    public String searchTask(Model model,
+                             @PathVariable Long userId,
+                             @RequestParam(required = false) String searchText) {
+
+        User user = userService.getUserByIdOrNull(userId);
+        List<Task> tasks = new ArrayList<>();
+        if (user == null)
+            return "redirect:/error";
+
+        if (StringUtils.hasText(searchText)) {
+            List<Task> byTitle = taskService.findTasksByTitle(searchText, userId);
+            List<Task> byDescription = taskService.findTasksByDescription(searchText, userId);
+            List<Task> byDate = taskService.findTasksByCreationDate(searchText, userId);
+            Set<Task> set = new HashSet<>(byTitle);
+            set.addAll(byDescription);
+            set.addAll(byDate);
+            tasks.addAll(set);
+        } else
+            tasks = userService.getTasksFromUser(user);
+
+        model.addAttribute("task", new Task());
+        model.addAttribute("user", user);
+        model.addAttribute("tasks", tasks);
+        return "userTasks";
     }
 
 
