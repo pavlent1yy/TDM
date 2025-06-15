@@ -27,13 +27,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         user.setRegisteredAt(LocalDateTime.now());
         try {
             userRepository.save(user);
             LOGGER.info(LogMessages.INFO.USER_CREATED, user.getId(), user.getName(), user.getEmail());
+            return true;
         } catch (Exception e) {
             LOGGER.error(LogMessages.ERROR.USER_DUBLICATE_KEY_VALUE_ERROR, e.getMessage());
+            return false;
         }
     }
 

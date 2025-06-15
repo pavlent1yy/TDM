@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.TDM.todomaganer.entities.Task;
 import ru.TDM.todomaganer.entities.User;
-import ru.TDM.todomaganer.services.TaskService;
 import ru.TDM.todomaganer.services.UserService;
 
 import java.io.IOException;
@@ -20,7 +19,6 @@ import java.io.IOException;
 public class UserController {
 
     private final UserService userService;
-    private final TaskService taskService;
 
     @GetMapping
     public String usersPage(Model model){
@@ -30,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/about")
-    public String aboutPage(Model model){
+    public String aboutPage(){
         return "about-page";
     }
 
@@ -71,12 +69,12 @@ public class UserController {
             user.setAvatar(avatarFile.getBytes());
 
         try {
-            userService.addUser(user);
+            if (userService.addUser(user))
+                return "redirect:/ui/users";
+            else return "redirect:/error";
         } catch (Exception e) {
-            return "redirect:/ui/users/error";
+            return "redirect:/error";
         }
-
-        return "redirect:/ui/users";
     }
 
 
