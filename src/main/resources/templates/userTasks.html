@@ -11,86 +11,103 @@
     <link rel="stylesheet" href="/css/header-footer.css">
 </head>
 <body>
-    <div class="wrapper">
-        <div th:insert="~{fragments/header :: header}"></div>
+<div class="wrapper">
 
-        <!-- User Profile --->
+    <div th:insert="~{fragments/header :: header}"></div>
+
+    <!-- Навигация назад -->
+    <nav class="navigation" style="margin: 20px 25px;">
+        <a th:href="@{'/ui/users'}" class="arrow-btn" aria-label="Back to user list">← Back</a>
+    </nav>
+
+    <!-- User Profile -->
+    <section class="user-profile" style="margin: 0 25px 40px;">
         <div class="user-card" th:object="${user}">
-            <div class="avatar">
+
+            <div class="avatar" style="position: relative;">
                 <img th:src="@{/ui/users/{id}/avatar(id=${user.id})}" alt="Avatar" width="64" height="64">
                 <button type="submit" class="delete-btn"
-                        onclick="openDeleteConfirmationById('userDeleteConfirmation')">Delete user</button>
+                        onclick="openDeleteConfirmationById('userDeleteConfirmation')"
+                        aria-label="Delete user">×
+                </button>
             </div>
-
 
             <div class="user-info">
                 <div class="name" th:text="${user.name}"></div>
                 <div class="email" th:text="${user.email}"></div>
                 <div class="tasks" th:text="|Created ${user.registeredAt.getDayOfMonth()}.${user.registeredAt.getMonth().getValue()}.${user.registeredAt.getYear()}
-                                            ${user.registeredAt.getHour()}:${user.registeredAt.getMinute()}:${user.registeredAt.getSecond()} |" style="white-space: pre-line;">
+                                            ${user.registeredAt.getHour()}:${user.registeredAt.getMinute()}:${user.registeredAt.getSecond()} |"
+                     style="white-space: pre-line;">
                 </div>
                 <div class="tasks" th:text="'Tasks: ' + ${user.tasks.size()}"></div>
             </div>
+
         </div>
+    </section>
 
-        <!-- Back to user list Button --->
-        <br><br>
-        <div class="action">
-            <a style="margin-left: 25px" th:href="@{'/ui/users'}" class="arrow-btn">←</a>
-        </div>
+    <!-- Tasks Section -->
+    <main class="container">
 
-        <!-- Tasks --->
-        <div class="container">
-            <div class="header">
-                <h1>[[${user.name}]]’s Tasks</h1>
-                <button id="searchToggleBtn" class="search-toggle"
-                        th:classappend="${searchText} ? 'active reset' : ''">
-                    <span th:text="${searchText} ? '✕' : '🔍︎'">Поиск</span>
-                </button>
-                <button class="add-task-btn" onclick="openNewTaskPopup()">+</button>
-            </div>
+        <header class="header" style="display: flex; align-items: center; gap: 15px;">
+            <h1 style="flex-grow: 1;">[[${user.name}]]’s Tasks</h1>
 
-            <form th:action="@{/ui/users/{id}/search(id=${user.id})}"
-                  method="get"
-                  id="searchForm"
-                  class="search-form"
-                  th:classappend="${searchText} ? 'active' : ''">
-                <input
-                        type="text"
-                        name="searchText"
-                        th:value="${searchText}"
-                        placeholder="Search tasks…" aria-label="Search">
-                <button type="submit">Search</button>
-            </form>
+            <button id="searchToggleBtn" class="search-toggle"
+                    th:classappend="${searchText} ? 'active reset' : ''"
+                    aria-pressed="false" aria-label="Toggle task search">
+                <span th:text="${searchText} ? '✕' : '🔍︎'">Поиск</span>
+            </button>
 
+            <button class="add-task-btn" onclick="openNewTaskPopup()" aria-label="Add new task">+</button>
+        </header>
 
+        <form th:action="@{/ui/users/{id}/search(id=${user.id})}"
+              method="get"
+              id="searchForm"
+              class="search-form"
+              th:classappend="${searchText} ? 'active' : ''"
+              style="margin: 15px 0;">
+            <input
+                    type="text"
+                    name="searchText"
+                    th:value="${searchText}"
+                    placeholder="Search tasks…"
+                    aria-label="Search tasks">
+            <button type="submit" aria-label="Submit task search">Search</button>
+        </form>
 
-            <h2 style="margin-top: 40px; margin-bottom: 10px;">Active Tasks</h2>
+        <!-- Active Tasks -->
+        <section class="active-tasks" style="margin-top: 40px;">
+            <h2>Active Tasks</h2>
             <div class="task-list">
                 <div th:each="task : ${tasks}" th:if="${!task.isCompleted}">
                     <div th:replace="fragments/task-card :: task(task=${task}, user=${user}, isCompleted=${false})"></div>
                 </div>
             </div>
+        </section>
 
-            <h2 style="margin-top: 40px; margin-bottom: 10px;">Completed Tasks</h2>
+        <!-- Completed Tasks -->
+        <section class="completed-tasks" style="margin-top: 40px;">
+            <h2>Completed Tasks</h2>
             <div class="task-list">
                 <div th:each="task : ${tasks}" th:if="${task.isCompleted}">
                     <div th:replace="fragments/task-card :: task(task=${task}, user=${user}, isCompleted=${true})"></div>
                 </div>
             </div>
-        </div>
+        </section>
 
+    </main>
 
-        <!--Popups--->
-        <div th:insert="fragments/popups :: new-task(${user.id}, ${task})"></div>
-        <div th:insert="fragments/popups :: delete-user(${user.id})"></div>
-        <div th:insert="fragments/popups :: delete-task"></div>
-        <div th:insert="fragments/popups :: edit-task(${task})"></div>
+    <!-- Popups -->
+    <div th:insert="fragments/popups :: new-task(${user.id}, ${task})"></div>
+    <div th:insert="fragments/popups :: delete-user(${user.id})"></div>
+    <div th:insert="fragments/popups :: delete-task"></div>
+    <div th:insert="fragments/popups :: edit-task(${task})"></div>
 
-        <!--JS connect--->
-        <script src="/js/popup-handler.js"></script>
+    <!-- JS -->
+    <script src="/js/popup-handler.js"></script>
 
-        <div th:replace="fragments/footer :: footer"></div>
-    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+
+</div>
 </body>
 </html>

@@ -13,15 +13,15 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<header th:replace="fragments/header :: header"></header>
 
-<div class="error-container">
+<main class="error-container" role="main" style="text-align:center; padding: 40px 20px;">
     <h1>Упс! Что‑не так</h1>
-    <p>Произошла ошибка. Пожалуйста, попробуйте вернуться назад или перейти на главнюю.</p>
-    <a th:href="@{/ui/users}" class="back-home">Вернуться на главнюю</a>
-</div>
+    <p>Произошла ошибка. Пожалуйста, попробуйте вернуться назад или перейти на главную.</p>
+    <a th:href="@{/ui/users}" class="back-home" role="button" aria-label="Вернуться на главную">Вернуться на главнюю</a>
+</main>
 
-<div th:replace="fragments/footer :: footer"></div>
+<footer th:replace="fragments/footer :: footer"></footer>
 
 </body>
 </html>
