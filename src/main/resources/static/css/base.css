@@ -39,3 +39,106 @@ html, body {
     padding: 30px 40px;
 }
 
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form input {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    flex-grow: 1;
+    transition: border-color 0.3s ease;
+}
+
+.search-form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+.reset-button {
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: #000;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #b3b3b3;
+}
+
+.search-form {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form.active {
+    display: flex;
+}
+
+.search-toggle {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    margin-right: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-toggle:hover {
+    background-color: #0056b3;
+}
+
+.search-toggle.active {
+    background-color: #757575;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-toggle.active span {
+    color: #fff;
+}
+
+.search-toggle.active:hover {
+    background-color: #a70000;
+}
+
+

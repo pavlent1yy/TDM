@@ -78,26 +78,23 @@ public class TaskController {
                              @RequestParam(required = false) String searchText) {
 
         User user = userService.getUserByIdOrNull(userId);
-        List<Task> tasks = new ArrayList<>();
+        List<Task> tasks;
         if (user == null)
             return "redirect:/error";
 
-        if (StringUtils.hasText(searchText)) {
-            List<Task> byTitle = taskService.findTasksByTitle(searchText, userId);
-            List<Task> byDescription = taskService.findTasksByDescription(searchText, userId);
-            List<Task> byDate = taskService.findTasksByCreationDate(searchText, userId);
-            Set<Task> set = new HashSet<>(byTitle);
-            set.addAll(byDescription);
-            set.addAll(byDate);
-            tasks.addAll(set);
-        } else
+        if (StringUtils.hasText(searchText))
+            tasks = taskService.searchTask(searchText, userId);
+        else
             tasks = userService.getTasksFromUser(user);
 
         model.addAttribute("task", new Task());
         model.addAttribute("user", user);
         model.addAttribute("tasks", tasks);
+        model.addAttribute("searchText", searchText);
         return "userTasks";
     }
+
+
 
 
 }

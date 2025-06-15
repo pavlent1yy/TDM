@@ -42,8 +42,27 @@
         <div class="container">
             <div class="header">
                 <h1>[[${user.name}]]’s Tasks</h1>
+                <button id="searchToggleBtn" class="search-toggle"
+                        th:classappend="${searchText} ? 'active reset' : ''">
+                    <span th:text="${searchText} ? '✕' : '🔍︎'">Поиск</span>
+                </button>
                 <button class="add-task-btn" onclick="openNewTaskPopup()">+</button>
             </div>
+
+            <form th:action="@{/ui/users/{id}/search(id=${user.id})}"
+                  method="get"
+                  id="searchForm"
+                  class="search-form"
+                  th:classappend="${searchText} ? 'active' : ''">
+                <input
+                        type="text"
+                        name="searchText"
+                        th:value="${searchText}"
+                        placeholder="Search tasks…" aria-label="Search">
+                <button type="submit">Search</button>
+            </form>
+
+
 
             <h2 style="margin-top: 40px; margin-bottom: 10px;">Active Tasks</h2>
             <div class="task-list">

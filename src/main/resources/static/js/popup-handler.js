@@ -46,5 +46,24 @@ function openEditTask(button) {
     popup.style.display = "flex";
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBtn = document.getElementById('searchToggleBtn');
+    const searchForm = document.getElementById('searchForm');
+    const isSearch = searchBtn.classList.contains('active'); // Есть ли searchText?
+
+    searchBtn.addEventListener('click', (e) => {
+        if (isSearch) {
+            // В поиске — перейти назад на обычный список задач
+            window.location.href = searchForm.action.split('/search')[0];
+        } else {
+            // В обычном — просто показа/скрываем поле с поиском
+            searchForm.classList.toggle('active');
+        }
+    });
+});
+
+
+
+
 
 

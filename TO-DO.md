@@ -29,6 +29,7 @@
 10. Popup с ошибками
 11. Вкладка "About"
 12. ~~undefined при пустом description в edit-task~~
+13. ~~Форма поиска в userTasks~~
 
 ## Логи
 1. ~~Лог для создания user~~

@@ -12,7 +12,10 @@ import ru.TDM.todomaganer.repos.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,41 +55,45 @@ public class TaskService {
         LOGGER.info(LogMessages.INFO.TASK_EDITED, task.getId());
     }
 
+    public List<Task> searchTask(String searchText, Long userId) {
+        List<Task> byTitle = findTasksByTitle(searchText, userId);
+        List<Task> byDescription = findTasksByDescription(searchText, userId);
+        List<Task> byDate = findTasksByCreationDate(searchText, userId);
 
-    public Task getTaskById(Long taskId) {
-        return taskRepository.findById(taskId).orElseThrow();
+        Set<Task> set = new HashSet<>(byTitle);
+        set.addAll(byDescription);
+        set.addAll(byDate);
+        return new ArrayList<>(set);
     }
 
+
     public List<Task> findTasksByTitle(String title, Long id) {
-        List<Task> tasks = new ArrayList<>();
-        if (userRepository.findById(id).isPresent()) {
-            tasks = userRepository.findById(id).get().getTasks().stream()
-                    .filter(task -> task.getTitle().equals(title)).collect(Collectors.toList());
-        }
-        return tasks;
+        return filterTasks(id, task -> task.getTitle().equals(title));
     }
 
     public List<Task> findTasksByDescription(String description, Long id) {
-        List<Task> tasks = new ArrayList<>();
-        if (userRepository.findById(id).isPresent()) {
-            tasks = userRepository.findById(id).get().getTasks().stream()
-                    .filter(task -> task.getDescription().equals(description)).collect(Collectors.toList());
-        }
-        return tasks;
+        return filterTasks(id, task -> task.getDescription().equals(description));
     }
 
-    public List<Task> findTasksByCreationDate(String date, Long id){
-        List<Task> tasks = new ArrayList<>();
-        if (userRepository.findById(id).isPresent() && isInteger(date)) {
-            int dateToInt = Integer.parseInt(date);
-            tasks = userRepository.findById(id).get().getTasks().stream()
-                    .filter(task
-                            -> task.getCreatedAt().getDayOfMonth() == dateToInt
-                            || task.getCreatedAt().getMonthValue() == dateToInt
-                            || task.getCreatedAt().getYear() == dateToInt
-                    ).collect(Collectors.toList());
+    public List<Task> findTasksByCreationDate(String date, Long id) {
+        if (!isInteger(date)) {
+            return List.of();
         }
-        return tasks;
+        int dateToInt = Integer.parseInt(date);
+        return filterTasks(id, task ->
+                task.getCreatedAt().getDayOfMonth() == dateToInt ||
+                task.getCreatedAt().getMonthValue() == dateToInt ||
+                task.getCreatedAt().getYear() == dateToInt
+        );
+    }
+
+
+    private List<Task> filterTasks(Long id, Predicate<Task> condition) {
+        return userRepository.findById(id)
+                .map(user -> user.getTasks().stream()
+                        .filter(condition)
+                        .collect(Collectors.toList()))
+                .orElse(List.of());
     }
 
     private static boolean isInteger(String str) {
@@ -97,5 +104,6 @@ public class TaskService {
             return false;
         }
     }
+
 
 }
