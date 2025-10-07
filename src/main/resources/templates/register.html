@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+</head>
+<body>
+
+<h1>Register New User</h1>
+
+<!-- Ошибки -->
+<div th:if="${error}" style="color:red; margin-bottom: 10px;">
+    <p th:text="${error}"></p>
+</div>
+
+<form th:action="@{/auth/register}" method="post" th:object="${user}">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" th:field="*{email}" required><br><br>
+
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" th:field="*{name}" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" th:field="*{password}" required><br><br>
+
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    // Простая проверка совпадения паролей на клиенте
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const password = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+        if (password !== confirm) {
+            e.preventDefault();
+            alert("Passwords do not match!");
+        }
+    });
+</script>
+
+</body>
+</html>

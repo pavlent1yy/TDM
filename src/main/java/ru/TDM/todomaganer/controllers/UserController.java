@@ -2,10 +2,13 @@ package ru.TDM.todomaganer.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.TDM.todomaganer.entities.Role;
 import ru.TDM.todomaganer.entities.Task;
 import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.services.UserService;
@@ -37,10 +40,12 @@ public class UserController {
         return "error-page";
     }
 
-
-
     @GetMapping("/{id}")
-    public String userTasksPage(Model model, @PathVariable Long id){
+    public String userProfile(Model model, @PathVariable Long id, Authentication auth){
+        User current = (User) auth.getPrincipal();
+        if (!current.getRole().equals(Role.OWNER) && !current.getId().equals(id)) {
+            throw new AccessDeniedException("Forbidden");
+        }
         if(userService.getUserById(id).isPresent()) {
             User user = userService.getUserById(id).get();
             model.addAttribute("tasks", userService.getTasksFromUser(user));
@@ -83,11 +88,5 @@ public class UserController {
         userService.deleteUser(id);
         return "redirect:/ui/users";
     }
-
-
-
-
-
-
 
 }

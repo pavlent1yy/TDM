@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.TDM.todomaganer.LogMessages;
+import ru.TDM.todomaganer.entities.Role;
 import ru.TDM.todomaganer.entities.Task;
 import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.repos.UserRepository;
@@ -75,6 +76,24 @@ public class UserService {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(avatar);
+    }
+
+    public boolean isEmailInUse(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean isUsernameInUse(String name) {
+        return userRepository.existsByName(name);
+    }
+
+    public User createNewUser(String username, String email, String encodedPassword) {
+        User user = new User();
+        user.setName(username);
+        user.setEmail(email);
+        user.setRole(Role.USER);
+        user.setPassword(encodedPassword);
+        addUser(user);
+        return user;
     }
 
 }

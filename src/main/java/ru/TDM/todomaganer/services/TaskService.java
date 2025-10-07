@@ -3,18 +3,18 @@ package ru.TDM.todomaganer.services;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.TDM.todomaganer.LogMessages;
+import ru.TDM.todomaganer.entities.Role;
 import ru.TDM.todomaganer.entities.Task;
 import ru.TDM.todomaganer.entities.User;
 import ru.TDM.todomaganer.repos.TaskRepository;
 import ru.TDM.todomaganer.repos.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -96,6 +96,10 @@ public class TaskService {
                 .orElse(List.of());
     }
 
+    private List<Task> findAllTasksByUserId(Long userId) {
+        return userRepository.findById(userId).orElseThrow().getTasks();
+    }
+
     private static boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -105,6 +109,16 @@ public class TaskService {
         }
     }
 
+    public List<Task> getUserTasks(Long userId) {
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (current.getRole() == Role.OWNER) {
+            return findAllTasksByUserId(userId);
+        }
+        if (!Objects.equals(current.getId(), userId)) {
+            throw new AccessDeniedException("You do not have permission to access this resource");
+        }
+        return findAllTasksByUserId(userId);
+    }
 
 
 }

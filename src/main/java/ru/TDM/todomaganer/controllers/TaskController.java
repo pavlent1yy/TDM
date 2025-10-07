@@ -37,7 +37,6 @@ public class TaskController {
             return "redirect:/ui/users/" + userId;
         } else
             return "redirect:/ui/users?error=UserNotFound";
-
     }
 
     @PostMapping("/{userId}/tasks/delete/{taskID}")
